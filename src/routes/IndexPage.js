@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Toast, WingBlank, List, InputItem, WhiteSpace, Button } from 'antd-mobile';
+import { Toast, List, InputItem, WhiteSpace, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
 import styles from './IndexPage.css';
@@ -17,9 +17,7 @@ class IndexPage extends Component {
     const { getFieldProps } = this.props.form;
     return (
       <div>
-        <WingBlank size="md">
-          <div className={styles.placeholder}>欢迎进入分享空间</div>
-        </WingBlank>
+        <div className={styles.placeholder}>欢迎进入分享空间</div>
         <List>
           <WhiteSpace size="lg" />
           <InputItem
