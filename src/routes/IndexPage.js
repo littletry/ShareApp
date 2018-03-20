@@ -6,7 +6,7 @@ import styles from './IndexPage.css';
 
 
 @connect(state => ({
-  login: state.login,
+  logins: state.logins,
 }))
 
 class IndexPage extends Component {
