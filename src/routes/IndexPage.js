@@ -2,17 +2,42 @@ import React, { Component } from 'react';
 import { Toast, List, InputItem, WhiteSpace, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
+import cryptoJs from 'crypto';
 import styles from './IndexPage.css';
 
 
 @connect(state => ({
-  logins: state.logins,
+  login: state.login,
 }))
 
 class IndexPage extends Component {
+  state = {
+    loginName: '',
+    password: '',
+  };
   componentDidMount() {
-    Toast.loading('加载中', 2);
   }
+  handleLogin = () => {
+    this.state.loginName = this.props.form.getFieldProps('loginName').value;
+    const password1 = this.props.form.getFieldProps('password').value;
+    this.state.password = cryptoJs.createHash('md5').update(password1).digest('hex');
+
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'login/fetch',
+      payload: {
+        loginName: this.state.loginName,
+        password: this.state.password,
+      },
+    });
+  };
+  loginTo = () => {
+    if (this.props.login.code === '' || this.props.login.code === null) {
+      this.handleLogin();
+    } else {
+      Toast.info(this.props.login.message, 2);
+    }
+  };
   render() {
     const { getFieldProps } = this.props.form;
     return (
@@ -21,19 +46,30 @@ class IndexPage extends Component {
         <List>
           <WhiteSpace size="lg" />
           <InputItem
-            {...getFieldProps('username')}
+            {...getFieldProps('loginName')}
             placeholder="请输入用户名"
-            lableNumber="7"
           />
           <WhiteSpace size="lg" />
           <InputItem
             {...getFieldProps('password')}
             placeholder="请输入密码"
-            lableNumber="7"
           />
           <WhiteSpace size="lg" />
-          <Button type="primary" inline style={{ width: '40%', marginLeft: '6%', marginRight: '4%' }} >登 录</Button>
-          <Button type="primary" inline style={{ width: '40%', marginLeft: '4%', marginRight: '6%' }} >注 册</Button>
+          <Button
+            type="primary"
+            inline
+            style={{ width: '40%', marginLeft: '6%', marginRight: '4%' }}
+            onClick={() => { this.handleLogin(); this.loginTo(); }}
+          >
+            登 录
+          </Button>
+          <Button
+            type="primary"
+            inline
+            style={{ width: '40%', marginLeft: '4%', marginRight: '6%' }}
+          >
+            注 册
+          </Button>
         </List>
       </div>
     );

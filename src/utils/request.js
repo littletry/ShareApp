@@ -21,10 +21,12 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
+export default function request(originUrl, options) {
+  const url = 'http://112.74.99.173:80/ShareZone'.concat(originUrl); // url增加前缀
+  // const url = originUrl;
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
-    .then(data => ({ data }))
+    // .then(data => ({ data }))
     .catch(err => ({ err }));
 }

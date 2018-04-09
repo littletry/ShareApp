@@ -1,10 +1,14 @@
-import { login } from '../services/api';
+import { logins } from '../services/api';
 
 export default {
-  namespace: 'logins',
+  namespace: 'login',
+  state: {
+    code: '',
+    message: '',
+  },
   effects: {
     * fetch({ payload }, { call, put }) {
-      const response = yield call(login, payload);
+      const response = yield call(logins, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -14,10 +18,16 @@ export default {
   reducers: {
     save(state, action) {
       if (action.payload.code === 0) {
-        const data = action.payload.content;
         return {
           ...state,
-          data,
+          code: action.payload.code,
+          message: action.payload.message,
+        };
+      } else if (action.payload.code === 502) {
+        return {
+          ...state,
+          code: action.payload.code,
+          message: action.payload.message,
         };
       } else {
         return {
