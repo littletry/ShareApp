@@ -47,13 +47,17 @@ class IndexPage extends Component {
           <WhiteSpace size="lg" />
           <InputItem
             {...getFieldProps('loginName')}
-            placeholder="请输入用户名"
-          />
+            placeholder="请输入登录名称"
+          >
+            登录名称：
+          </InputItem>
           <WhiteSpace size="lg" />
           <InputItem
             {...getFieldProps('password')}
-            placeholder="请输入密码"
-          />
+            placeholder="请输入登录密码"
+          >
+            登录密码：
+          </InputItem>
           <WhiteSpace size="lg" />
           <Button
             type="primary"
