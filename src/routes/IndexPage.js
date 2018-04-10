@@ -38,6 +38,12 @@ class IndexPage extends Component {
       Toast.info(this.props.login.message, 2);
     }
   };
+  toRegister = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'login/reg',
+    });
+  };
   render() {
     const { getFieldProps } = this.props.form;
     return (
@@ -71,6 +77,7 @@ class IndexPage extends Component {
             type="primary"
             inline
             style={{ width: '40%', marginLeft: '4%', marginRight: '6%' }}
+            onClick={() => this.toRegister()}
           >
             注 册
           </Button>

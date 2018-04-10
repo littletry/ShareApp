@@ -1,3 +1,4 @@
+import { routerRedux } from 'dva/router';
 import { logins } from '../services/api';
 
 export default {
@@ -13,6 +14,9 @@ export default {
         type: 'save',
         payload: response,
       });
+    },
+    * reg(_, { put }) {
+      yield put(routerRedux.push('/register'));
     },
   },
   reducers: {
