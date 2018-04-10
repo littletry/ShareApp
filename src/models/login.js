@@ -18,6 +18,9 @@ export default {
     * reg(_, { put }) {
       yield put(routerRedux.push('/register'));
     },
+    * toMain({ payload }, { put }) {
+      yield put(routerRedux.push('/main', payload));
+    },
   },
   reducers: {
     save(state, action) {

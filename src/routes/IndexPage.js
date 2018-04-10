@@ -35,13 +35,21 @@ class IndexPage extends Component {
     if (this.props.login.code === '' || this.props.login.code === null) {
       this.handleLogin();
     } else {
-      Toast.info(this.props.login.message, 2);
+      Toast.info(this.props.login.message, 3);
+      this.toMain(this.state.loginName);
     }
   };
   toRegister = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'login/reg',
+    });
+  };
+  toMain = (loginName) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'login/toMain',
+      payload: loginName,
     });
   };
   render() {
