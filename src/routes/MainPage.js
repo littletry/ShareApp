@@ -15,6 +15,8 @@ class MainPage extends Component {
   renderContent = (pageText) => {
     return (
       <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
+        <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+        <hr />
         <div style={{ paddingTop: 60 }}>
           Clicked “{pageText}” tab， show “{pageText}” information
         </div>
