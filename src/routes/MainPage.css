@@ -1,0 +1,40 @@
+.all {
+  height: 21px;
+  background: url(../assets/all.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.all_select {
+  height: 21px;
+  background: url(../assets/all_select.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.mine {
+  height: 21px;
+  background: url(../assets/mine.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.mine_select {
+  height: 21px;
+  background: url(../assets/mine_select.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.my {
+  height: 21px;
+  background: url(../assets/my.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.my_select {
+  height: 21px;
+  background: url(../assets/my_select.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.share {
+  height: 21px;
+  background: url(../assets/share.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
+.share_select {
+  height: 21px;
+  background: url(../assets/share_select.svg) no-repeat center 0;
+  background-size: 21px 21px;
+}
