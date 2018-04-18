@@ -4,7 +4,7 @@ import request from '../utils/request';
 
 
 export function logins(params) {
-  return request(`/user/_login?loginName=${params.loginName}&password=${params.password}`, {
+  return request(`/user/login?loginName=${params.loginName}&password=${params.password}`, {
     method: 'POST',
   });
 }
