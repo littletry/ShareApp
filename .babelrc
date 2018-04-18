@@ -1,3 +1,25 @@
 {
-  "plugins": ["transform-runtime", ["import", { "libraryName": "antd-mobile", "style": "css" }]]
+  "plugins": [
+    "transform-runtime",
+    [
+      "import",
+      {
+        "libraryName": "antd-mobile",
+        "style": "css"
+      }
+    ],
+    "transform-object-rest-spread",
+    "external-helpers",
+    "external-helpers-insert-require"
+  ],
+  "presets": [
+    [
+      "es2015",
+      {
+        "loose": true,
+        "modules": "amd"
+      }
+    ],
+    "react"
+  ]
 }
