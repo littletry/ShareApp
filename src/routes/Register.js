@@ -22,6 +22,10 @@ class Register extends Component {
         label: '女',
         value: '1',
       },
+      {
+        label: '保密',
+        value: '2',
+      },
     ];
     return (
       <div>
@@ -30,7 +34,8 @@ class Register extends Component {
           <WhiteSpace size="lg" />
           <InputItem
             {...getFieldProps('loginName')}
-            extra="请输入登录名称"
+            placeholder="请输入登录名称"
+            style={{ textAlign: 'right' }}
             key="loginName"
           >
             登录名称：
@@ -38,7 +43,8 @@ class Register extends Component {
           <WhiteSpace size="xs" />
           <InputItem
             {...getFieldProps('password')}
-            extra="请输入登录密码"
+            placeholder="请输入登录密码"
+            style={{ textAlign: 'right' }}
             key="password"
           >
             登录密码：
@@ -46,7 +52,8 @@ class Register extends Component {
           <WhiteSpace size="xs" />
           <InputItem
             {...getFieldProps('password1')}
-            extra="请确认登录密码"
+            placeholder="请确认登录密码"
+            style={{ textAlign: 'right' }}
             key="password1"
           >
             确认密码：
@@ -54,14 +61,18 @@ class Register extends Component {
           <WhiteSpace size="xs" />
           <InputItem
             {...getFieldProps('userName')}
-            extra="请输入用户姓名"
+            placeholder="请输入用户姓名"
+            style={{ textAlign: 'right' }}
+            key="userName"
           >
             用户姓名：
           </InputItem>
           <WhiteSpace size="xs" />
           <InputItem
             {...getFieldProps('email')}
-            extra="请输入用户邮箱"
+            placeholder="请输入用户邮箱"
+            style={{ textAlign: 'right' }}
+            key="email"
           >
             用户邮箱：
           </InputItem>
@@ -91,11 +102,13 @@ class Register extends Component {
             placeholder="请输入个性描述信息"
             rows={3}
             count={200}
+            key="description"
           >
             个性描述：
           </TextareaItem>
           <WhiteSpace size="xs" />
           <Button
+            key="register"
             type="primary"
             inline
             style={{ width: '60%', marginLeft: '20%' }}
