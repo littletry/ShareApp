@@ -74,10 +74,10 @@ class Register extends Component {
         payload: user,
         callback: (resp) => {
           if (resp.code === 0) {
-            Toast.info(resp.message, 3);
+            Toast.info(resp.message, 1);
             this.toLogin();
           } else if (resp.code === 501) {
-            Toast.info(resp.message, 3);
+            Toast.info(resp.message, 2);
           }
         },
       });
