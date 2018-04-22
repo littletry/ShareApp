@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabBar, Icon, Result, WhiteSpace, Card, Badge } from 'antd-mobile';
+import { TabBar, Icon, Result, WhiteSpace, Card, Badge, List, InputItem, TextareaItem, DatePicker, Picker, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
 import styles from './MainPage.css';
@@ -14,19 +14,21 @@ class MainPage extends Component {
     userId: '',
     dataAll: [],
     dataUserAll: [],
+    user: {},
   };
   componentDidMount() {
     this.state.userId = sessionStorage.getItem('userId');
     this.fetchAll();
     this.fetchUserAll(this.state.userId);
+    this.fetchUser(this.state.userId);
   }
+
   fetchAll = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'main/fetchAll',
       payload: '1',
       callback: (resp) => {
-        console.log(resp);
         this.setState({
           dataAll: resp.content,
         });
@@ -42,13 +44,25 @@ class MainPage extends Component {
         userI: userId,
       },
       callback: (resp) => {
-        console.log(resp);
         this.setState({
           dataUserAll: resp.content,
         });
       },
     });
   };
+  fetchUser = (userId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'main/fetchUser',
+      payload: userId,
+      callback: (resp) => {
+        this.setState({
+          user: resp.content,
+        });
+      },
+    });
+  };
+
   renderAll = () => {
     const listAll = this.state.dataAll;
     const items = [];
@@ -91,7 +105,6 @@ class MainPage extends Component {
     }
     return items;
   };
-
   renderUserAll = () => {
     const listAll = this.state.dataUserAll;
     const items = [];
@@ -134,31 +147,160 @@ class MainPage extends Component {
     }
     return items;
   };
+  renderUser = () => {
+    const { getFieldProps } = this.props.form;
+    const user1 = this.state.user;
+    const birth1 = parseInt(user1.birthday, 10);
+    const birth = new Date(birth1);
+    let sex1 = '';
+    if (user1.sex !== undefined) {
+      sex1 = user1.sex.toString();
+    }
+    console.log(user1);
+    const sex = [
+      {
+        label: '男',
+        value: '0',
+      },
+      {
+        label: '女',
+        value: '1',
+      },
+      {
+        label: '保密',
+        value: '2',
+      },
+    ];
+    return (
+      <List>
+        <WhiteSpace size="lg" />
+        <InputItem
+          {...getFieldProps('loginName', {
+            initialValue: user1.loginName,
+          })}
+          disabled="true"
+          placeholder="请输入登录名称"
+          style={{ textAlign: 'right' }}
+          key="loginName"
+        >
+          <a style={{ color: '#000' }}>登录名称：</a>
+        </InputItem>
+        <WhiteSpace size="xs" />
+        <InputItem
+          {...getFieldProps('password')}
+          placeholder="请输入登录密码"
+          style={{ textAlign: 'right' }}
+          key="password"
+          type="password"
+        >
+          登录密码：
+        </InputItem>
+        <WhiteSpace size="xs" />
+        <InputItem
+          {...getFieldProps('password1')}
+          placeholder="请确认登录密码"
+          style={{ textAlign: 'right' }}
+          key="password1"
+          type="password"
+        >
+          确认密码：
+        </InputItem>
+        <WhiteSpace size="xs" />
+        <InputItem
+          {...getFieldProps('userName', {
+            initialValue: user1.userName,
+          })}
+          placeholder="请输入用户姓名"
+          style={{ textAlign: 'right' }}
+          key="userName"
+        >
+          用户姓名：
+        </InputItem>
+        <WhiteSpace size="xs" />
+        <InputItem
+          {...getFieldProps('email', {
+            initialValue: user1.email,
+          })}
+          placeholder="请输入用户邮箱"
+          style={{ textAlign: 'right' }}
+          key="email"
+        >
+          用户邮箱：
+        </InputItem>
+        <WhiteSpace size="xs" />
+        <Picker
+          key="sex"
+          extra="请选择用户性别"
+          data={sex}
+          cols={1}
+          {...getFieldProps('sex', {
+            initialValue: sex1,
+          })}
+        >
+          <List.Item arrow="horizontal" >用户性别：</List.Item>
+        </Picker>
+        <WhiteSpace size="xs" />
+        <DatePicker
+          mode="date"
+          key="birthday"
+          format="YYYY-MM-DD"
+          extra="请选择用户生日"
+          {...getFieldProps('birthday', {
+            initialValue: birth,
+          })}
+        >
+          <List.Item arrow="horizontal" >用户生日：</List.Item>
+        </DatePicker>
+        <WhiteSpace size="xs" />
+        <TextareaItem
+          {...getFieldProps('description', {
+            initialValue: user1.description,
+          })}
+          placeholder="请输入个性描述信息"
+          rows={3}
+          count={200}
+          key="description"
+        >
+          个性描述：
+        </TextareaItem>
+        <WhiteSpace size="xs" />
+        <Button
+          key="register"
+          type="primary"
+          inline
+          style={{ width: '100%' }}
+        >
+          确认修改
+        </Button>
+      </List>
+    );
+  };
+
   renderContent = (pageText) => {
     if (pageText === 'all') {
       return (
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <div className={styles.placeholder}>所有分享</div>
           <hr />
           <div>
-            { this.renderAll() }
+            {this.renderAll() }
           </div>
         </div>
       );
     } else if (pageText === 'mine') {
       return (
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <div className={styles.placeholder}>我的分享</div>
           <hr />
           <div>
-            { this.renderUserAll() }
+            {this.renderUserAll() }
           </div>
         </div>
       );
     } else if (pageText === 'share') {
       return (
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <div className={styles.placeholder}>将要分享</div>
           <hr />
           <div>
             Clicked “{pageText}” tab， show “{pageText}” information
@@ -168,10 +310,10 @@ class MainPage extends Component {
     } else if (pageText === 'my') {
       return (
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <div className={styles.placeholder}>我的信息</div>
           <hr />
           <div>
-            Clicked “{pageText}” tab， show “{pageText}” information
+            {this.renderUser() }
           </div>
         </div>
       );

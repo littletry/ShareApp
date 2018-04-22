@@ -27,3 +27,9 @@ export function queryUserContents(params) {
     method: 'POST',
   });
 }
+
+export function queryUser(userId) {
+  return request(`/user/userId?userId=${userId}`, {
+    method: 'POST',
+  });
+}
