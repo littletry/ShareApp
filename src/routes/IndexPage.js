@@ -29,15 +29,15 @@ class IndexPage extends Component {
         loginName: this.state.loginName,
         password: this.state.password,
       },
+      callback: (resp) => {
+        if (resp.code === 0) {
+          Toast.info(resp.message, 3);
+          this.toMain(resp.content.id);
+        } else if (resp.code === 501) {
+          Toast.info(resp.message, 3);
+        }
+      },
     });
-  };
-  loginTo = () => {
-    if (this.props.login.code === '' || this.props.login.code === null) {
-      this.handleLogin();
-    } else {
-      Toast.info(this.props.login.message, 3);
-      this.toMain(this.props.login.user.id);
-    }
   };
   toRegister = () => {
     const { dispatch } = this.props;
@@ -45,11 +45,11 @@ class IndexPage extends Component {
       type: 'login/reg',
     });
   };
-  toMain = (loginName) => {
+  toMain = (loginId) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'login/toMain',
-      payload: loginName,
+      payload: loginId,
     });
   };
   render() {
@@ -78,7 +78,7 @@ class IndexPage extends Component {
             type="primary"
             inline
             style={{ width: '40%', marginLeft: '6%', marginRight: '4%' }}
-            onClick={() => { this.handleLogin(); this.loginTo(); }}
+            onClick={() => { this.handleLogin(); }}
           >
             登 录
           </Button>
