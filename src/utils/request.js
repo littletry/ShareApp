@@ -22,8 +22,8 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(originUrl, options) {
-  // const url = 'http://112.74.99.173:80/ShareZone'.concat(originUrl); // url增加前缀
-  const url = originUrl;
+  const url = 'http://112.74.99.173:80/ShareZone'.concat(originUrl); // url增加前缀
+  // const url = originUrl;
 
   const defaultOptions = {
     credentials: 'include',
