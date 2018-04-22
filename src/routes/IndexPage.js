@@ -36,7 +36,7 @@ class IndexPage extends Component {
       this.handleLogin();
     } else {
       Toast.info(this.props.login.message, 3);
-      this.toMain(this.state.loginName);
+      this.toMain(this.props.login.user.id);
     }
   };
   toRegister = () => {

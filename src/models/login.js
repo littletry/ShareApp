@@ -6,6 +6,7 @@ export default {
   state: {
     code: '',
     message: '',
+    user: {},
   },
   effects: {
     * fetch({ payload }, { call, put }) {
@@ -19,8 +20,8 @@ export default {
       yield put(routerRedux.push('/register'));
     },
     * toMain({ payload }, { put }) {
-      const userName = payload.toString();
-      sessionStorage.setItem('userName', userName);
+      const userId = payload.toString();
+      sessionStorage.setItem('userId', userId);
       yield put(routerRedux.push('/main'));
     },
   },
@@ -31,6 +32,7 @@ export default {
           ...state,
           code: action.payload.code,
           message: action.payload.message,
+          user: action.payload.content,
         };
       } else if (action.payload.code === 502) {
         return {
