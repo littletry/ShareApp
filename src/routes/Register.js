@@ -72,15 +72,15 @@ class Register extends Component {
       dispatch({
         type: 'register/fetch',
         payload: user,
+        callback: (resp) => {
+          if (resp.code === 0) {
+            Toast.info(resp.message, 3);
+            this.toLogin();
+          } else if (resp.code === 501) {
+            Toast.info(resp.message, 3);
+          }
+        },
       });
-    }
-  };
-  registerTo = () => {
-    if (this.props.register.code === '' || this.props.register.code === null) {
-      this.handleRegister();
-    } else {
-      Toast.info(this.props.register.message, 3);
-      this.toLogin();
     }
   };
   toLogin = () => {
@@ -192,7 +192,7 @@ class Register extends Component {
             type="primary"
             inline
             style={{ width: '60%', marginLeft: '20%' }}
-            onClick={() => this.registerTo()}
+            onClick={() => this.handleRegister()}
           >
             确认注册
           </Button>
