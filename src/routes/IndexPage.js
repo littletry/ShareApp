@@ -69,6 +69,7 @@ class IndexPage extends Component {
           <InputItem
             {...getFieldProps('password')}
             placeholder="请输入登录密码"
+            type="password"
           >
             登录密码：
           </InputItem>
