@@ -78,7 +78,7 @@ class IndexPage extends Component {
             type="primary"
             inline
             style={{ width: '40%', marginLeft: '6%', marginRight: '4%' }}
-            onClick={() => { this.handleLogin(); }}
+            onClick={() => this.handleLogin()}
           >
             登 录
           </Button>
