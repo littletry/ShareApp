@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabBar, Icon } from 'antd-mobile';
+import { TabBar, Icon, Result, WhiteSpace, Card } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
 import styles from './MainPage.css';
@@ -13,10 +13,12 @@ class MainPage extends Component {
     selectedTab: 'allTab',
     userId: '',
     dataAll: [],
+    dataUserAll: [],
   };
   componentDidMount() {
     this.state.userId = sessionStorage.getItem('userId');
     this.fetchAll();
+    this.fetchUserAll(this.state.userId);
   }
   fetchAll = () => {
     const { dispatch } = this.props;
@@ -31,15 +33,103 @@ class MainPage extends Component {
       },
     });
   };
+  fetchUserAll = (userId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'main/fetchUserAll',
+      payload: {
+        page: '1',
+        userI: userId,
+      },
+      callback: (resp) => {
+        console.log(resp);
+        this.setState({
+          dataUserAll: resp.content,
+        });
+      },
+    });
+  };
+  renderAll = () => {
+    const listAll = this.state.dataAll;
+    const items = [];
+    if (listAll.length !== 0) {
+      for (let i = 0; i < listAll.length; i += 1) {
+        items.push(
+          <div key={listAll[i].id}>
+            <WhiteSpace size="md" />
+            <Card>
+              <Card.Header
+                title={'标题：' + listAll[i].title}
+                style={{ backgroundColor: '#e1f0fb' }}
+              />
+              <Card.Body>
+                <div>
+                  {listAll[i].detail}
+                </div>
+              </Card.Body>
+              <Card.Footer
+                content={<span>{'创建时间：' + listAll[i].createTime}</span>}
+              />
+            </Card>
+          </div>
+        );
+      }
+    } else {
+      items.push(
+        <div key="123456789">
+          <Result
+            title="暂无分享内容"
+          />
+        </div>
+      );
+    }
+    return items;
+  };
+
+  renderUserAll = () => {
+    const listAll = this.state.dataUserAll;
+    const items = [];
+    if (listAll.length !== 0) {
+      for (let i = 0; i < listAll.length; i += 1) {
+        items.push(
+          <div key={listAll[i].id}>
+            <WhiteSpace size="md" />
+            <Card>
+              <Card.Header
+                title={'标题：' + listAll[i].title}
+                style={{ backgroundColor: '#e1f0fb' }}
+              />
+              <Card.Body>
+                <div>
+                  {listAll[i].detail}
+                </div>
+              </Card.Body>
+              <Card.Footer
+                content={<span>{'创建时间：' + listAll[i].createTime}</span>}
+              />
+            </Card>
+          </div>
+        );
+      }
+    } else {
+      items.push(
+        <div key="123456789">
+          <Result
+            title="暂无分享内容"
+          />
+        </div>
+      );
+    }
+    return items;
+  };
   renderContent = (pageText) => {
     if (pageText === 'all') {
-      console.log(this.state.dataAll);
       return (
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
           <hr />
-          <div style={{ paddingTop: 60 }}>
-            Clicked “{pageText}” tab， show “{pageText}” information
+          <div>
+            { this.renderAll() }
           </div>
         </div>
       );
@@ -48,8 +138,8 @@ class MainPage extends Component {
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
           <hr />
-          <div style={{ paddingTop: 60 }}>
-            Clicked “{pageText}” tab， show “{pageText}” information
+          <div>
+            { this.renderUserAll() }
           </div>
         </div>
       );
@@ -58,17 +148,17 @@ class MainPage extends Component {
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
           <hr />
-          <div style={{ paddingTop: 60 }}>
+          <div>
             Clicked “{pageText}” tab， show “{pageText}” information
           </div>
         </div>
       );
-    } else {
+    } else if (pageText === 'my') {
       return (
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
           <hr />
-          <div style={{ paddingTop: 60 }}>
+          <div>
             Clicked “{pageText}” tab， show “{pageText}” information
           </div>
         </div>
@@ -77,7 +167,7 @@ class MainPage extends Component {
   };
   render() {
     return (
-      <div style={{ position: 'fixed', height: '100%', top: 0 }}>
+      <div style={{ position: 'fixed', width: '100%', height: '100%', top: 0 }}>
         <TabBar
           unselectedTintColor="#949494"
           tintColor="#33A3F4"
