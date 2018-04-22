@@ -80,7 +80,14 @@ class Register extends Component {
       this.handleRegister();
     } else {
       Toast.info(this.props.register.message, 3);
+      this.toLogin();
     }
+  };
+  toLogin = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'register/toLogin',
+    });
   };
   render() {
     const { getFieldProps } = this.props.form;
