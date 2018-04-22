@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { List, InputItem, TextareaItem, WhiteSpace, DatePicker, Picker, Button } from 'antd-mobile';
+import { Toast, List, InputItem, TextareaItem, WhiteSpace, DatePicker, Picker, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
+import cryptoJs from 'crypto';
 import styles from './Register.css';
 
 @connect(state => ({
@@ -10,10 +11,80 @@ import styles from './Register.css';
 
 class Register extends Component {
   state = {
+    loginName: '',
+    password: '',
+    password1: '',
+    userName: '',
+    email: '',
+    sex: '',
+    birthday: '',
+    description: '',
+  };
+  handleRegister = () => {
+    let checkState = true;
+    this.props.form.validateFields((errors, value) => {
+      if (value.loginName === '' || value.loginName === null) {
+        Toast.fail('请输入登录名称', 2);
+        checkState = false;
+        return;
+      }
+      if (value.password === '' || value.password === null) {
+        Toast.fail('请输入登录密码', 2);
+        checkState = false;
+        return;
+      }
+      if (value.password1 === '' || value.password1 === null) {
+        Toast.fail('请确认登录密码', 2);
+        checkState = false;
+        return;
+      }
+      if (value.userName === '' || value.userName === null) {
+        Toast.fail('请输入用户姓名', 2);
+        checkState = false;
+        return;
+      }
+      if (value.password !== value.password1) {
+        Toast.fail('两次密码输入不一致', 2);
+        checkState = false;
+      }
+    });
+
+    if (checkState) {
+      this.state.loginName = this.props.form.getFieldProps('loginName').value;
+      this.state.password = this.props.form.getFieldProps('password').value;
+      this.state.password1 = this.props.form.getFieldProps('password1').value;
+      this.state.userName = this.props.form.getFieldProps('userName').value;
+      this.state.email = this.props.form.getFieldProps('email').value;
+      this.state.sex = this.props.form.getFieldProps('sex').value;
+      this.state.birthday = this.props.form.getFieldProps('birthday').value;
+      this.state.description = this.props.form.getFieldProps('description').value;
+
+      const user = {
+        loginName: this.state.loginName,
+        password: this.state.password === '' ? '' : cryptoJs.createHash('md5').update(this.state.password).digest('hex'),
+        userName: this.state.userName,
+        email: this.state.email === undefined ? '' : this.state.email,
+        sex: this.state.sex === undefined ? '2' : this.state.sex[0],
+        birthday: this.state.birthday === undefined ? '' : this.state.birthday.getTime().toString(),
+        description: this.state.description === undefined ? '' : this.state.description,
+      };
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'register/fetch',
+        payload: user,
+      });
+    }
+  };
+  registerTo = () => {
+    if (this.props.register.code === '' || this.props.register.code === null) {
+      this.handleRegister();
+    } else {
+      Toast.info(this.props.register.message, 3);
+    }
   };
   render() {
     const { getFieldProps } = this.props.form;
-    const seasons = [
+    const sex = [
       {
         label: '男',
         value: '0',
@@ -46,6 +117,7 @@ class Register extends Component {
             placeholder="请输入登录密码"
             style={{ textAlign: 'right' }}
             key="password"
+            type="password"
           >
             登录密码：
           </InputItem>
@@ -55,6 +127,7 @@ class Register extends Component {
             placeholder="请确认登录密码"
             style={{ textAlign: 'right' }}
             key="password1"
+            type="password"
           >
             确认密码：
           </InputItem>
@@ -80,7 +153,7 @@ class Register extends Component {
           <Picker
             key="sex"
             extra="请选择用户性别"
-            data={seasons}
+            data={sex}
             cols={1}
             {...getFieldProps('sex')}
           >
@@ -112,6 +185,7 @@ class Register extends Component {
             type="primary"
             inline
             style={{ width: '60%', marginLeft: '20%' }}
+            onClick={() => this.registerTo()}
           >
             确认注册
           </Button>
