@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabBar, Icon, Result, WhiteSpace, Card } from 'antd-mobile';
+import { TabBar, Icon, Result, WhiteSpace, Card, Badge } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
 import styles from './MainPage.css';
@@ -58,10 +58,16 @@ class MainPage extends Component {
           <div key={listAll[i].id}>
             <WhiteSpace size="md" />
             <Card>
-              <Card.Header
-                title={'标题：' + listAll[i].title}
-                style={{ backgroundColor: '#e1f0fb' }}
-              />
+              <Badge
+                text={listAll[i].checkPublish === 0 ? '审核中' : listAll[i].checkPublish === 1 ? '通过' : '未通过'}
+                corner
+                style={listAll[i].checkPublish === 0 ? { backgroundColor: '#0c21db' } : listAll[i].checkPublish === 1 ? { backgroundColor: '#13db18' } : { backgroundColor: '#ff0000' }}
+              >
+                <Card.Header
+                  title={'标题：' + listAll[i].title}
+                  style={{ backgroundColor: '#e1f0fb' }}
+                />
+              </Badge>
               <Card.Body>
                 <div>
                   {listAll[i].detail}
@@ -95,10 +101,16 @@ class MainPage extends Component {
           <div key={listAll[i].id}>
             <WhiteSpace size="md" />
             <Card>
-              <Card.Header
-                title={'标题：' + listAll[i].title}
-                style={{ backgroundColor: '#e1f0fb' }}
-              />
+              <Badge
+                text={listAll[i].checkPublish === 0 ? '审核中' : listAll[i].checkPublish === 1 ? '通过' : '未通过'}
+                corner
+                style={listAll[i].checkPublish === 0 ? { backgroundColor: '#0c21db' } : listAll[i].checkPublish === 1 ? { backgroundColor: '#13db18' } : { backgroundColor: '#ff0000' }}
+              >
+                <Card.Header
+                  title={'标题：' + listAll[i].title}
+                  style={{ backgroundColor: '#e1f0fb' }}
+                />
+              </Badge>
               <Card.Body>
                 <div>
                   {listAll[i].detail}
