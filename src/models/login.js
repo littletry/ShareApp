@@ -19,7 +19,9 @@ export default {
       yield put(routerRedux.push('/register'));
     },
     * toMain({ payload }, { put }) {
-      yield put(routerRedux.push('/main', payload));
+      const userName = payload.toString();
+      sessionStorage.setItem('userName', userName);
+      yield put(routerRedux.push('/main'));
     },
   },
   reducers: {
