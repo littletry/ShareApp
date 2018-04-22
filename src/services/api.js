@@ -8,3 +8,10 @@ export function logins(params) {
     method: 'POST',
   });
 }
+
+export function registers(params) {
+  return request('/user/register', {
+    method: 'POST',
+    body: params,
+  });
+}
