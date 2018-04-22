@@ -22,9 +22,22 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(originUrl, options) {
-  const url = 'http://112.74.99.173:80/ShareZone'.concat(originUrl); // url增加前缀
-  // const url = originUrl;
-  return fetch(url, options)
+  // const url = 'http://112.74.99.173:80/ShareZone'.concat(originUrl); // url增加前缀
+  const url = originUrl;
+
+  const defaultOptions = {
+    credentials: 'include',
+  };
+  const newOptions = { ...defaultOptions, ...options };
+  if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
+    newOptions.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      ...newOptions.headers,
+    };
+    newOptions.body = JSON.stringify(newOptions.body);
+  }
+  return fetch(url, newOptions)
     .then(checkStatus)
     .then(parseJSON)
     // .then(data => ({ data }))
