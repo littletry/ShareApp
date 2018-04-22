@@ -11,17 +11,69 @@ import styles from './MainPage.css';
 class MainPage extends Component {
   state = {
     selectedTab: 'allTab',
+    userId: '',
+    dataAll: [],
+  };
+  componentDidMount() {
+    this.state.userId = sessionStorage.getItem('userId');
+    this.fetchAll();
+  }
+  fetchAll = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'main/fetchAll',
+      payload: '1',
+      callback: (resp) => {
+        console.log(resp);
+        this.setState({
+          dataAll: resp.content,
+        });
+      },
+    });
   };
   renderContent = (pageText) => {
-    return (
-      <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-        <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
-        <hr />
-        <div style={{ paddingTop: 60 }}>
-          Clicked “{pageText}” tab， show “{pageText}” information
+    if (pageText === 'all') {
+      console.log(this.state.dataAll);
+      return (
+        <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
+          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <hr />
+          <div style={{ paddingTop: 60 }}>
+            Clicked “{pageText}” tab， show “{pageText}” information
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else if (pageText === 'mine') {
+      return (
+        <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
+          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <hr />
+          <div style={{ paddingTop: 60 }}>
+            Clicked “{pageText}” tab， show “{pageText}” information
+          </div>
+        </div>
+      );
+    } else if (pageText === 'share') {
+      return (
+        <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
+          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <hr />
+          <div style={{ paddingTop: 60 }}>
+            Clicked “{pageText}” tab， show “{pageText}” information
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
+          <div className={styles.placeholder}>主&nbsp;&nbsp;页</div>
+          <hr />
+          <div style={{ paddingTop: 60 }}>
+            Clicked “{pageText}” tab， show “{pageText}” information
+          </div>
+        </div>
+      );
+    }
   };
   render() {
     return (
@@ -44,7 +96,7 @@ class MainPage extends Component {
             }}
             data-seed="logId"
           >
-            {this.renderContent('所有分享')}
+            {this.renderContent('all')}
           </TabBar.Item>
           <TabBar.Item
             title="我的分享"
@@ -59,7 +111,7 @@ class MainPage extends Component {
             }}
             data-seed="logId"
           >
-            {this.renderContent('我的分享')}
+            {this.renderContent('mine')}
           </TabBar.Item>
           <TabBar.Item
             title="分享"
@@ -74,7 +126,7 @@ class MainPage extends Component {
             }}
             data-seed="logId"
           >
-            {this.renderContent('分享')}
+            {this.renderContent('share')}
           </TabBar.Item>
           <TabBar.Item
             title="我的"
@@ -89,7 +141,7 @@ class MainPage extends Component {
             }}
             data-seed="logId"
           >
-            {this.renderContent('我的')}
+            {this.renderContent('my')}
           </TabBar.Item>
         </TabBar>
       </div>

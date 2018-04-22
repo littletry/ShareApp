@@ -15,3 +15,8 @@ export function registers(params) {
     body: params,
   });
 }
+export function queryContents(page) {
+  return request(`/content/userAll?page=${page}`, {
+    method: 'POST',
+  });
+}
