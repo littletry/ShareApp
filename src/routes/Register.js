@@ -23,22 +23,22 @@ class Register extends Component {
   handleRegister = () => {
     let checkState = true;
     this.props.form.validateFields((errors, value) => {
-      if (value.loginName === '' || value.loginName === null) {
+      if (value.loginName === undefined || value.loginName === '') {
         Toast.fail('请输入登录名称', 2);
         checkState = false;
         return;
       }
-      if (value.password === '' || value.password === null) {
+      if (value.password === undefined || value.password === '') {
         Toast.fail('请输入登录密码', 2);
         checkState = false;
         return;
       }
-      if (value.password1 === '' || value.password1 === null) {
+      if (value.password1 === undefined || value.password1 === '') {
         Toast.fail('请确认登录密码', 2);
         checkState = false;
         return;
       }
-      if (value.userName === '' || value.userName === null) {
+      if (value.userName === undefined || value.userName === '') {
         Toast.fail('请输入用户姓名', 2);
         checkState = false;
         return;
