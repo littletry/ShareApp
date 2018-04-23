@@ -11,10 +11,10 @@ const proxy = {
  // 'POST /user/register': 'http://112.74.99.173:80/ShareZone',
   'POST /user/register': 'http://127.0.0.1:8090/ShareZone',
 
-  // 'POST /user/userAll': 'http://112.74.99.173:80/ShareZone',
+  // 'POST /content/userAll': 'http://112.74.99.173:80/ShareZone',
   'POST /content/userAll': 'http://127.0.0.1:8090/ShareZone',
 
-  // 'POST /user/select': 'http://112.74.99.173:80/ShareZone',
+  // 'POST /content/select': 'http://112.74.99.173:80/ShareZone',
   'POST /content/select': 'http://127.0.0.1:8090/ShareZone',
 
   // 'POST /user/select': 'http://112.74.99.173:80/ShareZone',
@@ -23,6 +23,8 @@ const proxy = {
   // 'POST /user/change': 'http://112.74.99.173:80/ShareZone',
   'POST /user/change': 'http://127.0.0.1:8090/ShareZone',
 
+  // 'POST /content/commit': 'http://112.74.99.173:80/ShareZone',
+  'POST /content/commit': 'http://127.0.0.1:8090/ShareZone',
 };
 
 export default noProxy ? {} : delay(proxy, 1000);

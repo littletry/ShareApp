@@ -40,3 +40,11 @@ export function changeUser(params) {
     body: params,
   });
 }
+
+export function shareContent(params) {
+  console.log(params);
+  return request('/content/commit', {
+    method: 'POST',
+    body: params,
+  });
+}

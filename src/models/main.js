@@ -4,6 +4,7 @@ import {queryContents} from "../services/api";
 import {queryUserContents} from "../services/api";
 import {queryUser} from "../services/api";
 import {changeUser} from "../services/api";
+import {shareContent} from "../services/api";
 
 
 export default {
@@ -27,6 +28,10 @@ export default {
     },
     * change({ payload, callback }, { call }) {
       const response = yield call(changeUser, payload);
+      if (callback) callback(response);
+    },
+    * share({ payload, callback }, { call }) {
+      const response = yield call(shareContent, payload);
       if (callback) callback(response);
     },
   },

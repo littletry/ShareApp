@@ -11,7 +11,7 @@ import styles from './MainPage.css';
 
 class MainPage extends Component {
   state = {
-    selectedTab: 'myTab',
+    selectedTab: 'shareTab',
     userId: '',
     dataAll: [],
     dataUserAll: [],
@@ -63,6 +63,43 @@ class MainPage extends Component {
       },
     });
   };
+  fetchShare = () => {
+    let checkState = true;
+    this.props.form.validateFields((errors, value) => {
+      if (value.title === undefined || value.title === '') {
+        Toast.fail('请输入分享主题', 2);
+        checkState = false;
+        return;
+      }
+      if (value.details === undefined || value.detail === '') {
+        Toast.fail('请输入分享内容', 2);
+        checkState = false;
+      }
+    });
+    if (checkState) {
+      const newTitle = this.props.form.getFieldProps('title').value;
+      const newDetail = this.props.form.getFieldProps('details').value;
+
+      const content = {
+        title: newTitle === undefined ? '' : newTitle,
+        detail: newDetail === undefined ? '' : newDetail,
+        userId: this.state.userId,
+      };
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'main/share',
+        payload: content,
+        callback: (resp) => {
+          if (resp.code === 0) {
+            Toast.info(resp.message, 1);
+          } else if (resp.code === 501) {
+            Toast.info(resp.message, 2);
+          }
+        },
+      });
+    }
+  };
+
   changeUser = () => {
     let checkState = true;
     this.props.form.validateFields((errors, value) => {
@@ -209,6 +246,36 @@ class MainPage extends Component {
     }
     return items;
   };
+  renderShare = () => {
+    const { getFieldProps } = this.props.form;
+    return (
+      <List renderHeader="将要分享的内容">
+        <InputItem
+          {...getFieldProps('title')}
+          placeholder="请输入分享标题"
+          key="title"
+        />
+        <WhiteSpace size="xs" />
+        <TextareaItem
+          {...getFieldProps('details', {
+            initialValue: '',
+          })}
+          placeholder="分享的详细内容"
+          rows={9}
+          key="details"
+        />
+        <Button
+          key="shareButton"
+          type="primary"
+          inline
+          onClick={() => this.fetchShare()}
+          style={{ width: '100%' }}
+        >
+          确认无误并分享
+        </Button>
+      </List>
+    );
+  };
   renderUser = () => {
     const { getFieldProps } = this.props.form;
     const user1 = this.state.user;
@@ -218,7 +285,6 @@ class MainPage extends Component {
     if (user1.sex !== undefined) {
       sex1 = user1.sex.toString();
     }
-    console.log(user1);
     const sex = [
       {
         label: '男',
@@ -366,7 +432,7 @@ class MainPage extends Component {
           <div className={styles.placeholder}>将要分享</div>
           <hr />
           <div>
-            Clicked “{pageText}” tab， show “{pageText}” information
+            {this.renderShare()}
           </div>
         </div>
       );
