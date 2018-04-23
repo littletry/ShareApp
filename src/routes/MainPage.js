@@ -104,6 +104,7 @@ class MainPage extends Component {
       });
     }
     this.refresh();
+    this.props.form.resetFields();
   };
 
   changeUser = () => {
