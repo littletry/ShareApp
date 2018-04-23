@@ -11,7 +11,7 @@ import styles from './MainPage.css';
 
 class MainPage extends Component {
   state = {
-    selectedTab: 'shareTab',
+    selectedTab: 'allTab',
     userId: '',
     dataAll: [],
     dataUserAll: [],
@@ -178,16 +178,11 @@ class MainPage extends Component {
           <div key={listAll[i].id}>
             <WhiteSpace size="md" />
             <Card>
-              <Badge
-                text={listAll[i].checkPublish === 0 ? '审核中' : listAll[i].checkPublish === 1 ? '通过' : '未通过'}
-                corner
-                style={listAll[i].checkPublish === 0 ? { backgroundColor: '#0c21db' } : listAll[i].checkPublish === 1 ? { backgroundColor: '#13db18' } : { backgroundColor: '#ff0000' }}
-              >
-                <Card.Header
-                  title={'标题：' + listAll[i].title}
-                  style={{ backgroundColor: '#e1f0fb' }}
-                />
-              </Badge>
+              <Card.Header
+                title={'标题：' + listAll[i].title}
+                style={{ backgroundColor: '#e1f0fb' }}
+                extra={listAll[i].userName + '-->分享'}
+              />
               <Card.Body>
                 <div>
                   {listAll[i].detail}
@@ -220,16 +215,14 @@ class MainPage extends Component {
           <div key={listAll[i].id}>
             <WhiteSpace size="md" />
             <Card>
-              <Badge
-                text={listAll[i].checkPublish === 0 ? '审核中' : listAll[i].checkPublish === 1 ? '通过' : '未通过'}
-                corner
-                style={listAll[i].checkPublish === 0 ? { backgroundColor: '#0c21db' } : listAll[i].checkPublish === 1 ? { backgroundColor: '#13db18' } : { backgroundColor: '#ff0000' }}
-              >
-                <Card.Header
-                  title={'标题：' + listAll[i].title}
-                  style={{ backgroundColor: '#e1f0fb' }}
-                />
-              </Badge>
+              <Card.Header
+                title={'标题：' + listAll[i].title}
+                style={{ backgroundColor: '#e1f0fb' }}
+                extra={<Badge
+                  text={listAll[i].checkPublish === 0 ? '审核中' : listAll[i].checkPublish === 1 ? '通过' : '未通过'}
+                  style={listAll[i].checkPublish === 0 ? { backgroundColor: '#0c21db' } : listAll[i].checkPublish === 1 ? { backgroundColor: '#13db18' } : { backgroundColor: '#ff0000' }}
+                />}
+              />
               <Card.Body>
                 <div>
                   {listAll[i].detail}
@@ -420,7 +413,7 @@ class MainPage extends Component {
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>所有分享</div>
           <hr />
-          <div>
+          <div style={{ width: '98%' }}>
             {this.renderAll() }
           </div>
         </div>
@@ -430,7 +423,7 @@ class MainPage extends Component {
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>我的分享</div>
           <hr />
-          <div>
+          <div style={{ width: '98%' }}>
             {this.renderUserAll() }
           </div>
         </div>
@@ -440,7 +433,7 @@ class MainPage extends Component {
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>将要分享</div>
           <hr />
-          <div>
+          <div style={{ width: '98%' }}>
             {this.renderShare()}
           </div>
         </div>
@@ -450,7 +443,7 @@ class MainPage extends Component {
         <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
           <div className={styles.placeholder}>我的信息</div>
           <hr />
-          <div>
+          <div style={{ width: '98%' }}>
             {this.renderUser() }
           </div>
         </div>
