@@ -42,7 +42,6 @@ export function changeUser(params) {
 }
 
 export function shareContent(params) {
-  console.log(params);
   return request('/content/commit', {
     method: 'POST',
     body: params,
