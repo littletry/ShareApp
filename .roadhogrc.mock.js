@@ -20,6 +20,9 @@ const proxy = {
   // 'POST /user/select': 'http://112.74.99.173:80/ShareZone',
   'POST /user/userId': 'http://127.0.0.1:8090/ShareZone',
 
+  // 'POST /user/change': 'http://112.74.99.173:80/ShareZone',
+  'POST /user/change': 'http://127.0.0.1:8090/ShareZone',
+
 };
 
 export default noProxy ? {} : delay(proxy, 1000);

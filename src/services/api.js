@@ -33,3 +33,10 @@ export function queryUser(userId) {
     method: 'POST',
   });
 }
+
+export function changeUser(params) {
+  return request('/user/change', {
+    method: 'POST',
+    body: params,
+  });
+}

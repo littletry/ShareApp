@@ -3,6 +3,7 @@ import { routerRedux } from 'dva/router';
 import {queryContents} from "../services/api";
 import {queryUserContents} from "../services/api";
 import {queryUser} from "../services/api";
+import {changeUser} from "../services/api";
 
 
 export default {
@@ -22,6 +23,10 @@ export default {
     },
     * fetchUser({ payload, callback }, { call }) {
       const response = yield call(queryUser, payload);
+      if (callback) callback(response);
+    },
+    * change({ payload, callback }, { call }) {
+      const response = yield call(changeUser, payload);
       if (callback) callback(response);
     },
   },

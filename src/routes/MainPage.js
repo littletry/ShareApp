@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { TabBar, Icon, Result, WhiteSpace, Card, Badge, List, InputItem, TextareaItem, DatePicker, Picker, Button } from 'antd-mobile';
+import { TabBar, Icon, Result, WhiteSpace, Card, Badge, List, InputItem, TextareaItem, DatePicker, Picker, Button, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { connect } from 'dva';
+import cryptoJs from 'crypto';
 import styles from './MainPage.css';
 
 @connect(state => ({
@@ -10,7 +11,7 @@ import styles from './MainPage.css';
 
 class MainPage extends Component {
   state = {
-    selectedTab: 'allTab',
+    selectedTab: 'myTab',
     userId: '',
     dataAll: [],
     dataUserAll: [],
@@ -62,7 +63,68 @@ class MainPage extends Component {
       },
     });
   };
+  changeUser = () => {
+    let checkState = true;
+    this.props.form.validateFields((errors, value) => {
+      if (value.loginName === undefined || value.loginName === '') {
+        Toast.fail('请输入登录名称', 2);
+        checkState = false;
+        return;
+      }
+      if (value.password === undefined || value.password === '') {
+        Toast.fail('请输入登录密码', 2);
+        checkState = false;
+        return;
+      }
+      if (value.password1 === undefined || value.password1 === '') {
+        Toast.fail('请确认登录密码', 2);
+        checkState = false;
+        return;
+      }
+      if (value.userName === undefined || value.userName === '') {
+        Toast.fail('请输入用户姓名', 2);
+        checkState = false;
+        return;
+      }
+      if (value.password !== value.password1) {
+        Toast.fail('两次密码输入不一致', 2);
+        checkState = false;
+      }
+    });
+    if (checkState) {
+      const newLoginName = this.props.form.getFieldProps('loginName').value;
+      const newPassword = this.props.form.getFieldProps('password').value;
+      const newUserName = this.props.form.getFieldProps('userName').value;
+      const newEmail = this.props.form.getFieldProps('email').value;
+      const newSex = this.props.form.getFieldProps('sex').value;
+      const newBirthday = this.props.form.getFieldProps('birthday').value;
+      const newDescription = this.props.form.getFieldProps('description').value;
+      const birthd = this.state.user.birthday;
 
+      const user = {
+        loginName: newLoginName === undefined ? this.state.user.loginName : newLoginName,
+        password: newPassword === undefined ? '' : cryptoJs.createHash('md5').update(newPassword).digest('hex'),
+        userName: newUserName === undefined ? this.state.user.userName : newUserName,
+        email: newEmail === undefined ? this.state.user.email : newEmail,
+        sex: newSex === undefined ? this.state.user.sex : newSex[0].toString(),
+        birthday: newBirthday === undefined ? birthd : newBirthday.getTime().toString(),
+        description: newDescription === undefined ? this.state.user.description : newDescription,
+      };
+
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'main/change',
+        payload: user,
+        callback: (resp) => {
+          if (resp.code === 0) {
+            Toast.info(resp.message, 1);
+          } else if (resp.code === 501) {
+            Toast.info(resp.message, 2);
+          }
+        },
+      });
+    }
+  };
   renderAll = () => {
     const listAll = this.state.dataAll;
     const items = [];
@@ -268,6 +330,7 @@ class MainPage extends Component {
           key="register"
           type="primary"
           inline
+          onClick={() => this.changeUser()}
           style={{ width: '100%' }}
         >
           确认修改
