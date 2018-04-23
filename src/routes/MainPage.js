@@ -23,6 +23,12 @@ class MainPage extends Component {
     this.fetchUserAll(this.state.userId);
     this.fetchUser(this.state.userId);
   }
+  refresh = () => {
+    this.fetchAll();
+    this.fetchUserAll(this.state.userId);
+    this.fetchUser(this.state.userId);
+    this.setState({});
+  };
 
   fetchAll = () => {
     const { dispatch } = this.props;
@@ -71,15 +77,14 @@ class MainPage extends Component {
         checkState = false;
         return;
       }
-      if (value.details === undefined || value.detail === '') {
+      if (value.detail === undefined || value.detail === '') {
         Toast.fail('请输入分享内容', 2);
         checkState = false;
       }
     });
     if (checkState) {
       const newTitle = this.props.form.getFieldProps('title').value;
-      const newDetail = this.props.form.getFieldProps('details').value;
-
+      const newDetail = this.props.form.getFieldProps('detail').value;
       const content = {
         title: newTitle === undefined ? '' : newTitle,
         detail: newDetail === undefined ? '' : newDetail,
@@ -98,6 +103,7 @@ class MainPage extends Component {
         },
       });
     }
+    this.refresh();
   };
 
   changeUser = () => {
@@ -251,18 +257,20 @@ class MainPage extends Component {
     return (
       <List renderHeader="将要分享的内容">
         <InputItem
-          {...getFieldProps('title')}
+          {...getFieldProps('title', {
+            initialValue: '',
+          })}
           placeholder="请输入分享标题"
           key="title"
         />
         <WhiteSpace size="xs" />
         <TextareaItem
-          {...getFieldProps('details', {
+          {...getFieldProps('detail', {
             initialValue: '',
           })}
           placeholder="分享的详细内容"
           rows={9}
-          key="details"
+          key="detail"
         />
         <Button
           key="shareButton"
@@ -465,7 +473,7 @@ class MainPage extends Component {
             onPress={() => {
               this.setState({
                 selectedTab: 'allTab',
-              });
+              }); this.refresh();
             }}
             data-seed="logId"
           >
@@ -480,7 +488,7 @@ class MainPage extends Component {
             onPress={() => {
               this.setState({
                 selectedTab: 'mineTab',
-              });
+              }); this.refresh();
             }}
             data-seed="logId"
           >
@@ -495,7 +503,7 @@ class MainPage extends Component {
             onPress={() => {
               this.setState({
                 selectedTab: 'shareTab',
-              });
+              }); this.refresh();
             }}
             data-seed="logId"
           >
@@ -510,7 +518,7 @@ class MainPage extends Component {
             onPress={() => {
               this.setState({
                 selectedTab: 'myTab',
-              });
+              }); this.refresh();
             }}
             data-seed="logId"
           >
