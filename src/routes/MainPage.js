@@ -161,13 +161,20 @@ class MainPage extends Component {
         payload: user,
         callback: (resp) => {
           if (resp.code === 0) {
-            Toast.info(resp.message, 1);
+            Toast.info(resp.message + ',请登录', 1);
+            this.toLogin();
           } else if (resp.code === 501) {
             Toast.info(resp.message, 2);
           }
         },
       });
     }
+  };
+  toLogin = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'main/toLogin',
+    });
   };
   renderAll = () => {
     const listAll = this.state.dataAll;

@@ -34,5 +34,8 @@ export default {
       const response = yield call(shareContent, payload);
       if (callback) callback(response);
     },
+    * toLogin(_, { put }) {
+      yield put(routerRedux.push('/'));
+    },
   },
 };
