@@ -31,7 +31,7 @@ class IndexPage extends Component {
       },
       callback: (resp) => {
         if (resp.code === 0) {
-          Toast.info(resp.message, 1);
+          Toast.info('登录' + resp.message, 1);
           this.toMain(resp.content.id);
         } else if (resp.code === 501) {
           Toast.info(resp.message, 2);
