@@ -96,7 +96,7 @@ class MainPage extends Component {
         payload: content,
         callback: (resp) => {
           if (resp.code === 0) {
-            Toast.info(resp.message, 1);
+            Toast.info('上传成功，审核中！', 1);
           } else if (resp.code === 501) {
             Toast.info(resp.message, 2);
           }
@@ -373,6 +373,7 @@ class MainPage extends Component {
         <DatePicker
           mode="date"
           key="birthday"
+          minDate={new Date('1800/1/1')}
           format="YYYY-MM-DD"
           extra="请选择用户生日"
           {...getFieldProps('birthday', {

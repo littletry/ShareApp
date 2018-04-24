@@ -170,6 +170,7 @@ class Register extends Component {
           <DatePicker
             mode="date"
             key="birthday"
+            minDate={new Date('1800/1/1')}
             format="YYYY-MM-DD"
             extra="请选择用户生日"
             {...getFieldProps('birthday')}
